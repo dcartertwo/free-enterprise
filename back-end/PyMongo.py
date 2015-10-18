@@ -111,7 +111,7 @@ def get_data():
                 "JobGrowthRate": "",
                 "VCDeals": "",
                 "Score": "",
-                "Firm#": ""}
+                "Firm": ""}
         result = requests.get('https://www.quandl.com/api/v3/datasets/FRED/' + key +
                           'NGSP.json?api_key=FdR_cvbf6vXrTPcYGVR4&start_date=2005-01-01&end_date=2014-12-31')
         for Gkey in result.json()['dataset']['data']:
@@ -142,10 +142,10 @@ def get_data():
             sheet_Firm = Firm_wb.get_sheet_by_name(key)
             for count in range(39, 48):
                 firmList.append(sheet_Firm['B' + str(count)].value)
-            data['Firm#'] = firmList
+            data['Firm'] = firmList
             firmList = []
         else:
-            data['Firm#'] = None
+            data['Firm'] = None
         for k in range(0, 6):
             tmp = {
                 "Deals":"",
