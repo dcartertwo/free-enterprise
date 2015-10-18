@@ -72,12 +72,21 @@ restrict:'E'
       2013: 9,
       2014: 10
     };
+    $scope.currentGraphSelection = {};
+
+    $scope.priceSlider = 2004;
+
+    var year = yearStruct[$scope.priceSlider];
 
     $scope.awesomeThings = [];
     $scope.graphResults = {};
 
-    $http.get('/api/things').success(function(awesomeThings) {
-      $scope.awesomeThings = awesomeThings;
+    $scope.getYear = function() {
+      $scope.updateGraphResults($scope.currentGraphSelection);
+    };
+
+    $http.get('/data').success(function(data) {
+      $scope.fullGraphResults = data.tasks;
     });
 
     $scope.mapObject = {
@@ -98,18 +107,6 @@ restrict:'E'
         'defaultFill': '#DDDDDD'
       },
       data: {
-        "AZ": {
-          "fillKey": "MEDIUM"
-        },
-        "CO": {
-          "fillKey": "HIGH"
-        },
-        "DE": {
-          "fillKey": "LOW"
-        },
-        "GA": {
-          "fillKey": "MEDIUM"
-        }
       }};
 
     $scope.graphResults = {
@@ -120,20 +117,37 @@ restrict:'E'
     };
 
     $scope.updateGraphResults = function(data) {
+      console.log($scope.priceSlider);
+      $scope.currentGraphSelection = data;
       var id = data.id;
+<<<<<<< HEAD
       var year = yearStruct[2010];
       var stub = [{'GDP': [42.0, 40.0, 39.0, 37.0, 36.0, 35.0, 35.0, 34.0, 31.0, 29.0, 27.0], 'states': 'TX', 'UnEmployRate': [5.3, 5.3, 5.3, 5.4, 5.5, 5.9, 6.3, 6.3, 6.3, 6.3, 6.3]}]
+=======
+      var stub = $scope.fullGraphResults;
+>>>>>>> c220c240b6fbf17546a64d1ebbeefd78b91d0ac8
       stub.forEach(function(state) {
         if (id === state.states) {
           $scope.graphResults = {
             state: id,
             gdp: state.GDP[year],
+<<<<<<< HEAD
             jobGrowth: 7,
+=======
+            jobGrowthRate: function() {
+              if (state.JobGrowthRate === null) {
+                return 'Data Unavailable';
+              } else {
+                return state.JobGrowthRate[year];
+              }
+            },
+>>>>>>> c220c240b6fbf17546a64d1ebbeefd78b91d0ac8
             unemployment: state.UnEmployRate[year]
           };
           $scope.$apply($scope.graphResults);
         }
       });
     };
+
 
   });
