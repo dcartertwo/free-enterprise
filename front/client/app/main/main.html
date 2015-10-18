@@ -2,7 +2,18 @@
 
 <div class="container">
   <div class="row">
-    <datamap map="mapObject"></datamap>
+    <datamap map="mapObject" on-click="updateGraphResults"></datamap>
+  </div>
+</div>
+<div class="col-sm-12">
+  <div class="col-sm-4">
+    {{graphResults.gdp}}
+  </div>
+  <div class="col-sm-4">
+    {{graphResults.jobGrowth}}
+  </div>
+  <div class="col-sm-4">
+    {{graphResults.unemployment}}
   </div>
 </div>
 
