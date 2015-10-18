@@ -1,60 +1,49 @@
 'use strict';
 
-angular.module('frontApp').directive('dcirc', function() {
+angular.module('frontApp').directive('dcirc', function () {
   return {
-link:function(scope,element,attr){
-console.log(  "  look im the value"+attr.val );
+    link: function (scope, element, attr) {
+      console.log("  look im the value" + attr.val);
 
-scope.lab = attr.lab;
-element.css({
-       position: 'relative',
+      scope.lab = attr.lab;
+      element.css({
+        position: 'relative'
 
       });
 
-/*
+      /*
 
-Blue: 3661B0, Teal: 00ADA6, Orange: E86116, Red: B42020, Yellow: E2CF00
+       Blue: 3661B0, Teal: 00ADA6, Orange: E86116, Red: B42020, Yellow: E2CF00
 
 
-*/
+       */
 
-var chash ={"gdp":"#00ADA6","gro":"#B42020","une":"#00ADA6"  };
+      var chash = {"gdp": "#3661B0", "gro": "#E2CF00", "une": "#00ADA6","vc": "#00ADA6", "vcd": "#E2CF00", "score": "#B42020", "firm": "#3661B0" };
 
-var config1 = liquidFillGaugeDefaultSettings();
-    config1.circleColor = chash[attr.lab];
-    config1.textColor = "#FF4444";
-    config1.waveTextColor = "#FFAAAA";
-    config1.waveColor = "#FF77DD";
-    config1.circleThickness = 0.2;
-    config1.textVertPosition = 0.2;
-    config1.waveAnimateTime = 1000;
-        config1.waveAnimate = true;
-config1.waveHeight = .3;
-    config1.waveCount = 2;
+      var config1 = liquidFillGaugeDefaultSettings();
+      config1.circleColor = chash[attr.lab];
+      config1.textColor = "#000000";
+      config1.waveTextColor = "#FFAAAA";
+      config1.waveColor = chash[attr.lab];
+      config1.circleThickness = 0.2;
+      config1.textVertPosition = 0.2;
+      config1.waveAnimateTime = 1000;
+      config1.waveAnimate = true;
+      config1.waveHeight = .3;
+      config1.waveCount = 2;
 
 //parseInt(attr.val.replace("%","") )
-
- var gauge = loadLiquidFillGauge( attr.lab , 60 , config1  );
-
-
-scope.$watch(function() {return element.attr('val'); }, function(newValue){
-
-console.log("new value"+newValue);
-
-
-if(newValue!=null){
-
-gauge.update(parseInt(newValue.replace("%","") ));
-
-}// null ch
-
-
-});
-
-
-
-},
-restrict:'E'
+      var gauge = loadLiquidFillGauge(attr.lab, 60, config1);
+      scope.$watch(function () {
+        return element.attr('val');
+      }, function (newValue) {
+        console.log("new value" + newValue);
+        if (newValue != null) {
+          gauge.update(parseInt(newValue.replace("%", "")));
+        }// null ch
+      });
+    },
+    restrict: 'E'
 
   }
 })
@@ -81,11 +70,11 @@ restrict:'E'
     $scope.awesomeThings = [];
     $scope.graphResults = {};
 
-    $scope.getYear = function() {
+    $scope.getYear = function () {
       $scope.updateGraphResults($scope.currentGraphSelection);
     };
 
-    $http.get('/data').success(function(data) {
+    $http.get('/data').success(function (data) {
       $scope.fullGraphResults = data.tasks;
     });
 
@@ -93,8 +82,7 @@ restrict:'E'
       responsive: true,
       scope: 'usa',
       options: {
-        width: 1110,
-        legendHeight: 60 // optionally set the padding for the legend
+        width: 1110
       },
       geographyConfig: {
         highlighBorderColor: '#EAA9A8',
@@ -106,34 +94,37 @@ restrict:'E'
         'LOW': '#667FAF',
         'defaultFill': '#DDDDDD'
       },
-      data: {
-      }};
+      data: {}
+    };
 
     $scope.graphResults = {
       state: 'MD',
-      gdp: '95',
-      jobGrowth: '5',
-      unemployment: '10'
+      gdp: 0,
+      jobGrowth: 0,
+      unemployment: 0,
+      vcdeals: 0,
+      vcd: 0,
+      Score: 0,
+      Firm: 0
     };
 
-    $scope.updateGraphResults = function(data) {
+    $scope.updateGraphResults = function (data) {
       console.log($scope.priceSlider);
       $scope.currentGraphSelection = data;
       var id = data.id;
       var stub = $scope.fullGraphResults;
-      stub.forEach(function(state) {
+      stub.forEach(function (state) {
+        console.log(state);
         if (id === state.states) {
           $scope.graphResults = {
             state: id,
             gdp: state.GDP[year],
-            jobGrowthRate: function() {
-              if (state.JobGrowthRate === null) {
-                return 'Data Unavailable';
-              } else {
-                return state.JobGrowthRate[year];
-              }
-            },
-            unemployment: state.UnEmployRate[year]
+            jobGrowthRate: state.JobGrowthRate[year],
+            unemployment: state.UnEmployRate[year],
+            vcdeals: state.VCDeals[year].Amount,
+            vcd: state.VCDeals[year].Deals,
+            Score: state.Score,
+            Firm: state.Firm[year]
           };
           $scope.$apply($scope.graphResults);
         }
