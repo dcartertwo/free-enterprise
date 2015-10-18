@@ -65,26 +65,59 @@ states = {
 }
 
 
+# for i in range(8, 60):
+#     data = {
+#         "states":"",
+#         "VCDeals":[]
+#     }
+#     data['states'] = sheet['A' + str(i)].value
+#     for k in range(0, 6):
+#         tmp = {
+#         "Deals":"",
+#         "Amount":""
+#         }
+#         tmp['Deals'] = sheet[deallist[k] + str(i)].value
+#         tmp['Amount'] = sheet[amountlist[k] + str(i)].value
+#         tmplist.append(tmp)
+#     data['VCDeals'] = tmplist
+#     datalist.append(data)
+#     tmplist = []
+
 
 def get_data():
+    vxls = openpyxl.load_workbook('VC.xlsx')
+    wb = openpyxl.load_workbook('Job.xlsx')
+    xls = xl.open_workbook('Job.xlsx')
+    tmplist = []
+    deallist = ['B', 'D', 'F', 'H', 'J', 'L']
+    amountlist = ['C','E','G','I','K','M']
     datalist = []
     empList = []
     joblist = []
     finalList = []
-    wb = openpyxl.load_workbook('Job.xlsx')
-    xls = xl.open_workbook('Job.xlsx')
-    vxls = openpyxl.load_workbook('VC.xlsx')
-    for key in states:
+    sheetVC = vxls.get_sheet_by_name('Sheet1')
+    m = 0
+    for key in sorted(states.keys()):
+        print key
+        data = {"GDP": "",
+                "states": "",
+                "UnEmployRate": "",
+                "JobGrowthRate": "",
+                "VCDeals": ""}
         result = requests.get('https://www.quandl.com/api/v3/datasets/FRED/' + key +
                           'NGSP.json?api_key=FdR_cvbf6vXrTPcYGVR4&start_date=2005-01-01&end_date=2014-12-31')
         for Gkey in result.json()['dataset']['data']:
             for i in range(0,10):
                 tmp = result.json()['dataset']['data'][i][1]
                 datalist.append(tmp)
-                data = {"GDP": datalist,
-                "states": key,
-                "UnEmployRate": "",
-                "JobGrowthRate": ""}
+                # data = {"GDP": datalist,
+                # "states": key,
+                # "UnEmployRate": "",
+                # "JobGrowthRate": "",
+                # "VCDeals": ""}
+                data["GDP"] = datalist
+                data["states"] = key
+            datalist = []
             if key in xls.sheet_names():
                 sheet = wb.get_sheet_by_name(key)
                 i = 5
@@ -97,13 +130,25 @@ def get_data():
                     data['JobGrowthRate'] = joblist
                     i = i + 12
                 joblist = []
-                # print sheet['A' + str(i)].value
-                # print sheet['A' + str(i + 6)].value
+
             else:
                 data['JobGrowthRate'] = None
-            datalist = []
-            joblist = []
+        for k in range(0, 6):
+            tmp = {
+                "Deals":"",
+                "Amount":""
+                }
+            #print deallist[k] + str(j + 8)
+            tmp['Deals'] = sheetVC[deallist[k] + str(m + 8)].value
 
+            tmp['Amount'] = sheetVC[amountlist[k] + str(m + 8)].value
+            #print tmp
+            tmplist.append(tmp)
+        data['VCDeals'] = tmplist
+        m += 1
+        tmplist = []
+        # datalist.append(data)
+        #joblist = []
         resultUnEmploy = requests.get('https://www.quandl.com/api/v3/datasets/FRED/'
                                         + key +'UR.json?auth_token=FdR_cvbf6vXrTPcYGVR4&start_date=2005-01-01&end_date=2014-12-31')
         for newkey in resultUnEmploy.json()['dataset']['data']:
@@ -113,6 +158,7 @@ def get_data():
                 data["UnEmployRate"] = empList
             empList = []
         finalList.append(data)
+        
     return finalList
 
 data = get_data()
