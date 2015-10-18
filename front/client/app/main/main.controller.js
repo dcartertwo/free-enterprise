@@ -25,8 +25,7 @@ angular.module('frontApp')
     //});
 
     $http.get('/data').success(function(data) {
-      $scope.graphResults = data;
-      $scope.$apply($scope.graphResults);
+      $scope.fullGraphResults = data.tasks;
     });
 
     $scope.mapObject = {
@@ -47,18 +46,18 @@ angular.module('frontApp')
         'defaultFill': '#DDDDDD'
       },
       data: {
-        "AZ": {
-          "fillKey": "MEDIUM"
-        },
-        "CO": {
-          "fillKey": "HIGH"
-        },
-        "DE": {
-          "fillKey": "LOW"
-        },
-        "GA": {
-          "fillKey": "MEDIUM"
-        }
+        //"AZ": {
+        //  "fillKey": "MEDIUM"
+        //},
+        //"CO": {
+        //  "fillKey": "HIGH"
+        //},
+        //"DE": {
+        //  "fillKey": "LOW"
+        //},
+        //"GA": {
+        //  "fillKey": "MEDIUM"
+        //}
       }};
 
     $scope.graphResults = {
@@ -71,13 +70,20 @@ angular.module('frontApp')
     $scope.updateGraphResults = function(data) {
       var id = data.id;
       var year = yearStruct[2010];
-      var stub = [{'GDP': [427052.0, 407160.0, 390643.0, 372444.0, 362521.0, 350996.0, 353744.0, 343482.0, 315723.0, 296731.0, 271676.0], 'states': 'TX', 'UnEmployRate': [5.3, 5.3, 5.3, 5.4, 5.5, 5.9, 6.3, 6.3, 6.3, 6.3, 6.3]}]
+      var stub = $scope.fullGraphResults;
       stub.forEach(function(state) {
         if (id === state.states) {
           $scope.graphResults = {
             state: id,
             gdp: state.GDP[year],
-            jobGrowth: 'ADD ME',
+            jobGrowthRate: function() {
+              if (state.JobGrowthRate === null) {
+                console.log(state.JobGrowthRate);
+                return 'Data Unavailable';
+              } else {
+                return state.JobGrowthRate[year];
+              }
+            },
             unemployment: state.UnEmployRate[year]
           };
           $scope.$apply($scope.graphResults);
