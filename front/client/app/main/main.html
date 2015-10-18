@@ -11,15 +11,20 @@
   </div>
 </div>
 <div class="col-sm-12">
-  <div class="col-sm-4">
+  <div class="col-sm-2">
     {{graphResults.gdp}}
   </div>
-  <div class="col-sm-4">
+  <div class="col-sm-2">
     {{graphResults.jobGrowth}}
   </div>
-  <div class="col-sm-4">
+  <div class="col-sm-2">
     {{graphResults.unemployment}}
   </div>
+</div>
+<div class="col-sm-12">
+  <rzslider rz-slider-model="priceSlider" rz-slider-floor="2004"
+            rz-slider-ceil="2014" rz-slider-on-change="getYear()" ng-click="getYear()"
+            rz-slider-show-ticks="true"></rzslider>
 </div>
 
 <footer class="footer">

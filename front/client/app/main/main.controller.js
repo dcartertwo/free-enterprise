@@ -15,14 +15,18 @@ angular.module('frontApp')
       2013: 9,
       2014: 10
     };
+    $scope.currentGraphSelection = {};
+
+    $scope.priceSlider = 2004;
+
+    var year = yearStruct[$scope.priceSlider];
 
     $scope.awesomeThings = [];
     $scope.graphResults = {};
-    //
-    //$http.get('http://localhost:5000/free/api/v1.0/tasks').success(function(awesomeThings) {
-    //  $scope.awesomeThings = awesomeThings;
-    //  console.log(awesomeThings);
-    //});
+
+    $scope.getYear = function() {
+      $scope.updateGraphResults($scope.currentGraphSelection);
+    };
 
     $http.get('/data').success(function(data) {
       $scope.fullGraphResults = data.tasks;
@@ -46,18 +50,6 @@ angular.module('frontApp')
         'defaultFill': '#DDDDDD'
       },
       data: {
-        //"AZ": {
-        //  "fillKey": "MEDIUM"
-        //},
-        //"CO": {
-        //  "fillKey": "HIGH"
-        //},
-        //"DE": {
-        //  "fillKey": "LOW"
-        //},
-        //"GA": {
-        //  "fillKey": "MEDIUM"
-        //}
       }};
 
     $scope.graphResults = {
@@ -68,8 +60,9 @@ angular.module('frontApp')
     };
 
     $scope.updateGraphResults = function(data) {
+      console.log($scope.priceSlider);
+      $scope.currentGraphSelection = data;
       var id = data.id;
-      var year = yearStruct[2010];
       var stub = $scope.fullGraphResults;
       stub.forEach(function(state) {
         if (id === state.states) {
@@ -78,7 +71,6 @@ angular.module('frontApp')
             gdp: state.GDP[year],
             jobGrowthRate: function() {
               if (state.JobGrowthRate === null) {
-                console.log(state.JobGrowthRate);
                 return 'Data Unavailable';
               } else {
                 return state.JobGrowthRate[year];
@@ -90,5 +82,6 @@ angular.module('frontApp')
         }
       });
     };
+
 
   });
