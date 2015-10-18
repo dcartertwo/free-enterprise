@@ -18,9 +18,15 @@ angular.module('frontApp')
 
     $scope.awesomeThings = [];
     $scope.graphResults = {};
+    //
+    //$http.get('http://localhost:5000/free/api/v1.0/tasks').success(function(awesomeThings) {
+    //  $scope.awesomeThings = awesomeThings;
+    //  console.log(awesomeThings);
+    //});
 
-    $http.get('/api/things').success(function(awesomeThings) {
-      $scope.awesomeThings = awesomeThings;
+    $http.get('/data').success(function(data) {
+      $scope.graphResults = data;
+      $scope.$apply($scope.graphResults);
     });
 
     $scope.mapObject = {
