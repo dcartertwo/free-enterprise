@@ -88,6 +88,8 @@ def get_data():
     vxls = openpyxl.load_workbook('VC.xlsx')
     wb = openpyxl.load_workbook('Job.xlsx')
     xls = xl.open_workbook('Job.xlsx')
+    Firm_wb = openpyxl.load_workbook('Firm.xlsx')
+    Firm_xls = xl.open_workbook('Firm.xlsx')
     tmplist = []
     deallist = ['B', 'D', 'F', 'H', 'J', 'L']
     amountlist = ['C','E','G','I','K','M']
@@ -95,44 +97,55 @@ def get_data():
     empList = []
     joblist = []
     finalList = []
+    firmList = []
     sheetVC = vxls.get_sheet_by_name('Sheet1')
     m = 0
+
     for key in sorted(states.keys()):
-        print key
+        score1 = 0
+        score2 = 0
+        score3 = 0
         data = {"GDP": "",
                 "states": "",
                 "UnEmployRate": "",
                 "JobGrowthRate": "",
-                "VCDeals": ""}
+                "VCDeals": "",
+                "Score": "",
+                "Firm#": ""}
         result = requests.get('https://www.quandl.com/api/v3/datasets/FRED/' + key +
                           'NGSP.json?api_key=FdR_cvbf6vXrTPcYGVR4&start_date=2005-01-01&end_date=2014-12-31')
         for Gkey in result.json()['dataset']['data']:
             for i in range(0,10):
                 tmp = result.json()['dataset']['data'][i][1]
                 datalist.append(tmp)
-                # data = {"GDP": datalist,
-                # "states": key,
-                # "UnEmployRate": "",
-                # "JobGrowthRate": "",
-                # "VCDeals": ""}
                 data["GDP"] = datalist
+                score1 += 0.00008 * tmp
                 data["states"] = key
             datalist = []
-            if key in xls.sheet_names():
-                sheet = wb.get_sheet_by_name(key)
-                i = 5
-                while i < 125:
-                    # print sheet['A' + str(i)].value
-                    original = sheet['B' + str(i)].value
-                    current = sheet['B' + str(i + 12)].value
-                    increase = float(current - original) / original
-                    joblist.append(increase)
-                    data['JobGrowthRate'] = joblist
-                    i = i + 12
-                joblist = []
+        if key in xls.sheet_names():
 
-            else:
-                data['JobGrowthRate'] = None
+            sheet = wb.get_sheet_by_name(key)
+            i = 5
+            while i < 125:
+                # print sheet['A' + str(i)].value
+                original = sheet['B' + str(i)].value
+                current = sheet['B' + str(i + 12)].value
+                increase = float(current - original) / original
+                joblist.append(increase)
+                score2 += (increase * 0.5) / 100
+                data['JobGrowthRate'] = joblist
+                i = i + 12
+            joblist = []
+        else:
+            data['JobGrowthRate'] = None
+        if key in Firm_xls.sheet_names():
+            sheet_Firm = Firm_wb.get_sheet_by_name(key)
+            for count in range(39, 48):
+                firmList.append(sheet_Firm['B' + str(count)].value)
+            data['Firm#'] = firmList
+            firmList = []
+        else:
+            data['Firm#'] = None
         for k in range(0, 6):
             tmp = {
                 "Deals":"",
@@ -140,25 +153,23 @@ def get_data():
                 }
             #print deallist[k] + str(j + 8)
             tmp['Deals'] = sheetVC[deallist[k] + str(m + 8)].value
-
             tmp['Amount'] = sheetVC[amountlist[k] + str(m + 8)].value
-            #print tmp
             tmplist.append(tmp)
         data['VCDeals'] = tmplist
         m += 1
         tmplist = []
-        # datalist.append(data)
-        #joblist = []
         resultUnEmploy = requests.get('https://www.quandl.com/api/v3/datasets/FRED/'
                                         + key +'UR.json?auth_token=FdR_cvbf6vXrTPcYGVR4&start_date=2005-01-01&end_date=2014-12-31')
         for newkey in resultUnEmploy.json()['dataset']['data']:
             for j in range(0,10):
                 tmp = resultUnEmploy.json()['dataset']['data'][j][1]
                 empList.append(tmp)
+                score3 += (tmp * 0.5) / 100
                 data["UnEmployRate"] = empList
             empList = []
+        data['Score'] = score2 + score3
         finalList.append(data)
-        
+
     return finalList
 
 data = get_data()
