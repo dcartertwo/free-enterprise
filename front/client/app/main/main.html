@@ -1,58 +1,70 @@
-
-
-
-
 <div ng-include="'components/navbar/navbar.html'"></div>
 
-<div class="mtitle" >National Economic Growth Assesment</div>
+<div class="mtitle">National Economic Growth Assesment</div>
 
-<div class="container">
+<div class="container" style="height: 600px">
   <div class="row">
     <datamap map="mapObject" on-click="updateGraphResults"></datamap>
   </div>
 </div>
+<div class="col-sm-2"></div>
+<div class="col-sm-8">
+  <rzslider rz-slider-model="priceSlider" rz-slider-floor="2004"
+            rz-slider-ceil="2014" rz-slider-on-change="getYear()" ng-click="getYear()"
+            rz-slider-show-ticks="true"></rzslider>
+</div>
+<div class="col-sm-2"></div>
 
-
-
-<div class="row">
+<div class="col-sm-12">
+  <div class="col-sm-2"></div>
   <div class="col-sm-2">
+    <p class="gtitle" style="text-align: center;">Score</p>
+    <dcirc lab="score" val={{graphResults.Score}}>
+      <svg id="score" width="200" height="200"></svg>
+    </dcirc>
+  </div>
+  <div class="col-sm-1">
+    <p class="gtitle" style="text-align: center;">GDP</p>
+    <p class="gtitle" style="text-align: center;">{{graphResults.gdp | number}}</p>
+
+    <!--<dcirc lab="gdp" val={{graphResults.gdp}}>-->
+      <!--<svg id="gdp" width="100" height="100"></svg>-->
+    <!--</dcirc>-->
+  </div>
+  <!--<div class="col-sm-1">-->
+    <!--<dcirc lab="gro" val={{graphResults.jobGrowth}}>-->
+      <!--<svg id="gro" width="100" height="100"></svg>-->
+    <!--</dcirc>-->
+  <!--</div>-->
+  <div class="col-sm-1">
+    <p class="gtitle" style="text-align: center;">Unemployment</p>
+    <p class="gtitle" style="text-align: center;">{{graphResults.unemployment}}%</p>
+    <!--<dcirc lab="une" val={{graphResults.unemployment}}>-->
+      <!--<svg id="une" width="100" height="100"></svg>-->
+    <!--</dcirc>-->
   </div>
 
-
-  <div class="col-sm-3">
-    <dcirc lab="gdp" val={{graphResults.gdp}} >
-        <svg id="gdp" width="100" height="100" > </svg>
-      </dcirc>
-
-    </div>
-    <div class="col-sm-3">
-
-      <dcirc lab="gro" val={{graphResults.jobGrowth}} >
-
-        <svg id="gro" width="100" height="100" > </svg>
-
-
-      </dcirc>
-
-    </div>
-    <div class="col-sm-3">
-
-      <dcirc lab="une" val={{graphResults.unemployment}} >
-
-        <svg id="une" width="100" height="100" > </svg>
-
-
-      </dcirc>
-
-    </div>
-
-
+  <div class="col-sm-1">
+    <p class="gtitle" style="text-align: center;">VC Contr.</p>
+    <p class="gtitle" style="text-align: center;">{{graphResults.vcdeals | number}}</p>
+    <!--<dcirc lab="vc" val={{graphResults.vcdeals}}>-->
+      <!--<svg id="vc" width="100" height="100"></svg>-->
+    <!--</dcirc>-->
   </div>
-  <div class="col-sm-12">
-    <rzslider rz-slider-model="priceSlider" rz-slider-floor="2004"
-    rz-slider-ceil="2014" rz-slider-on-change="getYear()" ng-click="getYear()"
-    rz-slider-show-ticks="true"></rzslider>
+  <div class="col-sm-1">
+    <p class="gtitle" style="text-align: center;">VC Deals</p>
+    <p class="gtitle" style="text-align: center;">{{graphResults.vcd | number}}</p>
+    <!--<dcirc lab="vcd" val={{graphResults.vcd}}>-->
+      <!--<svg id="vcd" width="100" height="100"></svg>-->
+    <!--</dcirc>-->
   </div>
-
+  <div class="col-sm-1">
+    <p class="gtitle" style="text-align: center;"># of Firms</p>
+    <p class="gtitle" style="text-align: center;">{{graphResults.Firm | number}}</p>
+    <!--<dcirc lab="firm" val={{graphResults.Firm}}>-->
+      <!--<svg id="firm" width="100" height="100"></svg>-->
+    <!--</dcirc>-->
+  </div>
+</div>
   <footer class="footer">
   </footer>
