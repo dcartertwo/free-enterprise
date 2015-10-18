@@ -167,7 +167,7 @@ def get_data():
                 score3 += (tmp * 0.5) / 100
                 data["UnEmployRate"] = empList
             empList = []
-        data['Score'] = score2 + score3
+        data['Score'] = (score2 + score3) * 2
         finalList.append(data)
 
     return finalList
