@@ -13,6 +13,15 @@
     letter-spacing: -1px;
 }
 
+.mtitle{
+
+    font-family: 'Source Sans Pro', sans-serif;
+    position: relative;
+    color:#8B8B8B;
+    font-size: 64px;
+ text-align: center;
+}
+
 #freebar{
 
 position: relative;

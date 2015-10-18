@@ -2,25 +2,57 @@
 
 
 
-
 <div ng-include="'components/navbar/navbar.html'"></div>
+
+<div class="mtitle" >National Economic Growth Assesment</div>
 
 <div class="container">
   <div class="row">
     <datamap map="mapObject" on-click="updateGraphResults"></datamap>
   </div>
 </div>
-<div class="col-sm-12">
-  <div class="col-sm-4">
-    {{graphResults.gdp}}
-  </div>
-  <div class="col-sm-4">
-    {{graphResults.jobGrowth}}
-  </div>
-  <div class="col-sm-4">
-    {{graphResults.unemployment}}
-  </div>
-</div>
 
-<footer class="footer">
-</footer>
+
+
+<div class="row">
+  <div class="col-sm-2">
+  </div>
+
+
+  <div class="col-sm-3">
+    <dcirc lab="gdp" val={{graphResults.gdp}} >
+        <svg id="gdp" width="100" height="100" > </svg>
+      </dcirc>
+
+    </div>
+    <div class="col-sm-3">
+
+      <dcirc lab="gro" val={{graphResults.jobGrowth}} >
+
+        <svg id="gro" width="100" height="100" > </svg>
+
+
+      </dcirc>
+
+    </div>
+    <div class="col-sm-3">
+
+      <dcirc lab="une" val={{graphResults.unemployment}} >
+
+        <svg id="une" width="100" height="100" > </svg>
+
+
+      </dcirc>
+
+    </div>
+
+
+  </div>
+  <div class="col-sm-12">
+    <rzslider rz-slider-model="priceSlider" rz-slider-floor="2004"
+    rz-slider-ceil="2014" rz-slider-on-change="getYear()" ng-click="getYear()"
+    rz-slider-show-ticks="true"></rzslider>
+  </div>
+
+  <footer class="footer">
+  </footer>

@@ -6,7 +6,8 @@ angular.module('frontApp', [
   'ngSanitize',
   'ui.router',
   'ui.bootstrap',
-  'datamaps'
+  'datamaps',
+  'rzModule'
 ])
   .config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
     $urlRouterProvider

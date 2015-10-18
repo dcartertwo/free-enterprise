@@ -7,6 +7,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro' rel='stylesheet' type='text/css'>
     <link rel="shortcut icon" href="https://www.freeenterprise.com/wp-content/themes/FreeEntreprise/images/favicon.ico?8c4b3d" type="image/x-icon">
     <link href="assets/Free_Enterprise_files/css" rel="stylesheet" type="text/css">
     <link rel="stylesheet" id="story-lightbox-css" href="assets/Free_Enterprise_files/story-lightbox.css" type="text/css" media="all">
@@ -30,6 +31,7 @@
       <link rel="stylesheet" href="app/app.css">
       <link rel="stylesheet" href="app/main/main.css">
       <link rel="stylesheet" href="components/modal/modal.css">
+      <link rel="stylesheet" href="bower_components/angularjs-slider/dist/rzslider.css">
       <!-- endinjector -->
     <!-- endbuild -->
 
@@ -48,6 +50,11 @@
     <meta property="og:description" content="FreeEnterprise.com features the faces of American businesses and all that they do to inspire, innovate, and create opportunities. Brought to you by the U.S. Chamber of Commerce, our stories show the power of free enterprise in action, highlighting the successes and challenges that face our nation’s business community.">
     <meta property="og:url" content="https://www.freeenterprise.com">
     <meta property="og:site_name" content="Free Enterprise">
+   <script src="assets/js/liquidFillGauge.js" language="JavaScript"></script>
+    <style>
+        .liquidFillGaugeText { font-family: Helvetica; font-weight: bold; }
+    </style>
+
     <script type="text/javascript" async="" src="assets/Free_Enterprise_files/linkid.js"></script>
     <script id="twitter-wjs" src="assets/Free_Enterprise_files/widgets.js"></script>
     <script async="" src="assets/Free_Enterprise_files/analytics.js"></script>
@@ -8328,7 +8335,7 @@
 
     <!-- Add your site or application content here -->
     <div ui-view=""></div>
-<footer><hr> <aside class="footer-larger"><p> U.S. Chamber of Commerce<br> 1615 H  St. NW<br></p><p> Washington, DC 20062-2000</p> </aside> <nav><ul><li> <a href="http://www.uschamber.com">U.S. Chamber</a></li><li> <a href="/privacy-policy/">Privacy Policy</a></li><li> <a href="mailto:editor@uschamber.com">Contact Us</a></li><li> © COPYRIGHT 2015</li></ul> </nav><div class="chamber-logo-holder"> <a href="https://www.uschamber.com/"> <img src="/wp-content/themes/FreeEntreprise/images/chamber_logo.png?8c4b3d" alt="U.S. Chamber of Commerce"> </a></div> </footer>
+<footer><hr> <aside class="footer-larger"><p> U.S. Chamber of Commerce<br> 1615 H  St. NW<br></p><p> Washington, DC 20062-2000</p> </aside> <nav><ul><li> <a href="http://www.uschamber.com">U.S. Chamber</a></li><li> <a href="/privacy-policy/">Privacy Policy</a></li><li> <a href="mailto:editor@uschamber.com">Contact Us</a></li><li> © COPYRIGHT 2015</li></ul> </nav><div class="chamber-logo-holder"> <a href="https://www.uschamber.com/"> <img src="assets/images/chamber_logo.png" alt="U.S. Chamber of Commerce"> </a></div> </footer>
     <!-- Google Analytics: change UA-XXXXX-X to be your site's ID -->
     <script>
       (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
@@ -8358,6 +8365,7 @@
       <script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
       <script src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
       <script src="bower_components/lodash/dist/lodash.compat.js"></script>
+      <script src="bower_components/angularjs-slider/dist/rzslider.js"></script>
       <!-- endbower -->
     <!-- endbuild -->
 
