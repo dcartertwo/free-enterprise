@@ -1,6 +1,63 @@
 'use strict';
 
-angular.module('frontApp')
+angular.module('frontApp').directive('dcirc', function() {
+  return {
+link:function(scope,element,attr){
+console.log(  "  look im the value"+attr.val );
+
+scope.lab = attr.lab;
+element.css({
+       position: 'relative',
+     
+      });
+
+/*
+
+Blue: 3661B0, Teal: 00ADA6, Orange: E86116, Red: B42020, Yellow: E2CF00
+
+
+*/
+
+var chash ={"gdp":"#00ADA6","gro":"#B42020","une":"#00ADA6"  };
+
+var config1 = liquidFillGaugeDefaultSettings();
+    config1.circleColor = chash[attr.lab];
+    config1.textColor = "#FF4444";
+    config1.waveTextColor = "#FFAAAA";
+    config1.waveColor = "#FF77DD";
+    config1.circleThickness = 0.2;
+    config1.textVertPosition = 0.2;
+    config1.waveAnimateTime = 1000;
+        config1.waveAnimate = true;
+config1.waveHeight = .3;
+    config1.waveCount = 2;
+
+//parseInt(attr.val.replace("%","") )
+
+ var gauge = loadLiquidFillGauge( attr.lab , 60 , config1  );
+
+
+scope.$watch(function() {return element.attr('val'); }, function(newValue){
+
+console.log("new value"+newValue);
+
+
+if(newValue!=null){
+
+gauge.update(parseInt(newValue.replace("%","") ));
+
+}// null ch
+
+
+});
+
+
+
+},
+restrict:'E'
+
+  }
+})
   .controller('MainCtrl', function ($scope, $http) {
     var yearStruct = {
       2004: 0,
@@ -57,21 +114,21 @@ angular.module('frontApp')
 
     $scope.graphResults = {
       state: 'MD',
-      gdp: '95%',
-      jobGrowth: '5%',
-      unemployment: '10%'
+      gdp: '95',
+      jobGrowth: '5',
+      unemployment: '10'
     };
 
     $scope.updateGraphResults = function(data) {
       var id = data.id;
       var year = yearStruct[2010];
-      var stub = [{'GDP': [427052.0, 407160.0, 390643.0, 372444.0, 362521.0, 350996.0, 353744.0, 343482.0, 315723.0, 296731.0, 271676.0], 'states': 'TX', 'UnEmployRate': [5.3, 5.3, 5.3, 5.4, 5.5, 5.9, 6.3, 6.3, 6.3, 6.3, 6.3]}]
+      var stub = [{'GDP': [42.0, 40.0, 39.0, 37.0, 36.0, 35.0, 35.0, 34.0, 31.0, 29.0, 27.0], 'states': 'TX', 'UnEmployRate': [5.3, 5.3, 5.3, 5.4, 5.5, 5.9, 6.3, 6.3, 6.3, 6.3, 6.3]}]
       stub.forEach(function(state) {
         if (id === state.states) {
           $scope.graphResults = {
             state: id,
             gdp: state.GDP[year],
-            jobGrowth: 'ADD ME',
+            jobGrowth: 7,
             unemployment: state.UnEmployRate[year]
           };
           $scope.$apply($scope.graphResults);
