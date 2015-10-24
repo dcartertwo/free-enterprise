@@ -1,0 +1,14 @@
+{
+  "name": "after-hours",
+  "version": "1.0.0",
+  "description": "backend for GETMaps",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Daniel Carter",
+  "license": "ISC",
+  "dependencies": {
+    "hapi": "^11.0.2"
+  }
+}
