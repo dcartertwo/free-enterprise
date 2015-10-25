@@ -9,6 +9,11 @@
   "author": "Daniel Carter",
   "license": "ISC",
   "dependencies": {
-    "hapi": "^11.0.2"
+    "fs": "0.0.2",
+    "hapi": "^11.0.2",
+    "path": "^0.12.7",
+    "pg": "^4.4.3",
+    "pg-hstore": "^2.3.2",
+    "sequelize": "^3.12.2"
   }
 }
